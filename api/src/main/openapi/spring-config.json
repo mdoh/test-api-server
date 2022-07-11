@@ -1,0 +1,14 @@
+{
+  "apiPackage": "com.example.testapi.server.api",
+  "modelPackage": "com.example.testapi.server.model",
+  "configPackage": "com.example.testapi.server.configuration",
+  "invokerPackage": "com.example.testapi.server.invoker",
+  "basePackage": "com.example.testapi.server.api",
+  "java8": true,
+  "async": false,
+  "dateLibrary": "java8",
+  "interfaceOnly": true,
+  "groupId": "com.example",
+  "artifactId": "test-api-server",
+  "artifactVersion": "${project.version}"
+}

@@ -1,0 +1,1057 @@
+openapi: 3.0.2
+info:
+  version: 2.0.0
+  title: Test-API
+  contact:
+    name: Test
+    url: http://www.test.de
+    email: test@test.de
+  description: The Test-API
+security:
+  - basicAuth: []
+servers:
+  - url: /testapi/v2
+paths:
+  "/document/{tenant}/{id}":
+    get:
+      description: Reads the document with id and returns it.
+      summary: Access documents
+      operationId: readDocument
+      parameters:
+        - name: tenant
+          in: path
+          description: Tenant
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Cms-id of document
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+        "400":
+          description: Invalid or missing parameter
+        "404":
+          description: No document with 'id' found
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Document:
+      type: object
+      discriminator:
+        propertyName: documentType
+        mapping:
+          subDocument1: "#/components/schemas/SubDocument1"
+          subDocument2: "#/components/schemas/SubDocument2"
+          subDocument3: "#/components/schemas/SubDocument3"
+          subDocument4: "#/components/schemas/SubDocument4"
+          subDocument5: "#/components/schemas/SubDocument5"
+          subDocument6: "#/components/schemas/SubDocument6"
+          subDocument7: "#/components/schemas/SubDocument7"
+          subDocument8: "#/components/schemas/SubDocument8"
+          subDocument9: "#/components/schemas/SubDocument9"
+          subDocument10: "#/components/schemas/SubDocument10"
+          subDocument11: "#/components/schemas/SubDocument11"
+      properties:
+        id:
+          type: string
+          description: Universal id of document
+        documentType:
+          type: string
+          enum:
+            - subDocument1
+            - subDocument2
+            - subDocument3
+            - subDocument4
+            - subDocument5
+            - subDocument6
+            - subDocument7
+            - subDocument8
+            - subDocument9
+            - subDocument10
+            - subDocument11
+          description: Document type
+        version:
+          type: integer
+          format: int32
+          description: Document version
+        tenant:
+          type: string
+        subTenant:
+          type: string
+        state:
+          type: string
+          enum:
+            - checkedOut
+            - checkedIn
+            - published
+        publicationDate:
+          type: string
+          deprecated: true
+          format: date-time
+          description: DEPRECATED use documentPublicationDate
+        firstPublicationDate:
+          type: string
+          deprecated: true
+          format: date-time
+          description: DEPRECATED use documentFirstPublicationDate
+        creationDate:
+          type: string
+          deprecated: true
+          format: date-time
+          description: DEPRECATED use documentCreationDate
+        modificationDate:
+          type: string
+          deprecated: true
+          format: date-time
+          description: DEPRECATED use versionModificationDate
+        versionCreationDate:
+          type: string
+          format: date-time
+          description: Creation date of version
+        versionModificationDate:
+          type: string
+          format: date-time
+          description: Modification date of version
+        versionPublicationDate:
+          type: string
+          format: date-time
+          description: Publication date of version
+        versionDePublicationDate:
+          type: string
+          format: date-time
+          description: DePublication date of this version
+        versionScheduledPublication:
+          type: boolean
+          description: Flag that the last publication or depublication of this document-version was done via a scheduler
+        documentCreationDate:
+          type: string
+          format: date-time
+          description: Creation date of document
+        documentFirstPublicationDate:
+          type: string
+          format: date-time
+          description: First publication date of document
+        documentPublicationDate:
+          type: string
+          format: date-time
+          description: Publication date of document
+        documentDePublicationDate:
+          type: string
+          format: date-time
+          description: Latest DePublication date of document
+        documentScheduledPublication:
+          type: boolean
+          description: Flag that the last publication or depublication of the document was done via a scheduler
+        canonicalLink:
+          type: string
+          description: DEPRECATED use canonicalPath
+        canonicalPath:
+          type: string
+          description: the canonical path to this document
+        alternativePaths:
+          type: array
+          description: the alternative paths to this document
+          items:
+            type: string
+        editors:
+          type: array
+          description: Editors currently working with the document
+          items:
+            type: string
+        editorsDone:
+          type: array
+          description: Editors which have worked with the document
+          items:
+            type: string
+        editorIds:
+          type: array
+          description: Accounting-Ids of editors currently working with the document
+          items:
+            type: string
+        editorIdsDone:
+          type: array
+          description: Accounting-Ids of editors which have worked with the document
+          items:
+            type: string
+        publicationBlocked:
+          type: boolean
+          description: Is publication blocked
+        adState:
+          description: DEPRECATED - was never really used. Will be removed.
+          type: string
+          enum:
+            - adsOn
+            - adsOff
+        noIndexNoFollow:
+          type: boolean
+          description: true or false.
+        externalId:
+          type: integer
+          format: int32
+          description: The external Id of the Representation of this Document in external
+        externalVersion:
+          type: integer
+          format: int32
+          description: The external Verion of the Representation of this Document in
+            external
+        additionalexternalReferences:
+          type: array
+          description: Array with additional external References, stored as key/value
+          items:
+            $ref: "#/components/schemas/externalReference"
+        externalSource:
+          type: string
+          enum:
+            - external
+            - daviz
+            - agencyNews
+            - vams
+          description: Identifier of the external Source for this Document. (If it was
+            imported.))
+        externalSourceId:
+          type: string
+          description: The Id of an (from external Source) imported Document
+        externalSourceAdditionalName:
+          type: string
+          description: An additional source-type or name. (e.g. DPA in conjunction with
+            externalSource=AGENCY_NEWS)
+        premium:
+          $ref: "#/components/schemas/Premium"
+        dynamicPlayoutExclude:
+          type: boolean
+          description: Whether this document should be displayed on dynamically filled
+            stages.
+        legalContent:
+          type: boolean
+          description: Whether this document is marked as legal content or not
+        legalContentLockDate:
+          type: string
+          format: date-time
+          description: Date the document was marked as legal content
+        assignedGroups:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubDocument9"
+        customDocumentType:
+          type: string
+          description: Type of the custom document. If empty, it is an standard document
+    SubDocument8:
+      description: Teasers that can be edited and published separately.
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            teasers:
+              $ref: "#/components/schemas/Teasers"
+    SubDocument1:
+      description: SubDocument1
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            kicker:
+              type: string
+              maxLength: 80
+              description: kicker
+            headline:
+              $ref: "#/components/schemas/RichText"
+            headlinePlain:
+              type: string
+              example: Beispiel-Überschrift
+              description: Plain text headline
+            subcell:
+              $ref: "#/components/schemas/RichText"
+            subcellPlain:
+              type: string
+              example: Beispiel-Unterzeile
+              description: Plain text subcell
+            text:
+              $ref: "#/components/schemas/RichText"
+            textPlain:
+              type: string
+              example: Beispiel-Artikeltext
+              description: Plain  text
+            author:
+              type: string
+              example: Max Mustermann
+              description: Autorenzeile
+            title:
+              type: string
+              example: This is the fancy Title
+              description: Seitentitle
+            displayDate:
+              type: string
+              format: date-time
+            updateDateOnPublication:
+              type: boolean
+              description: If set to true, the displayDate will be updated with the next
+                publication date.
+            metaDescription:
+              type: string
+              example: This is the SEO Meta-Description
+              description: SEO Meta-Description
+            canonicalTag:
+              type: string
+              example: This is the SEO Canonical Tag
+              description: SEO Canonical Tag (it isn't the Canonical URL from Burli. This tag is entered manually!)
+            teasers:
+              $ref: "#/components/schemas/Teasers"
+            conversionText:
+              $ref: "#/components/schemas/RichText"
+            conversionTextPlain:
+              type: string
+              example: Beispiel-Anrisstext für eine Premium Conversionseite
+              description: Plain conversion text
+            nodes:
+              type: array
+              items:
+                $ref: "#/components/schemas/SubDocument11Node"
+            nodesAdjusted:
+              type: boolean
+              description: set if the taxonoy-nodes where adjusted at least once
+    SubDocument7:
+      description: SubDocument7
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            kicker:
+              type: string
+              maxLength: 80
+              example: Beispiel-Dachzeile
+              description: Dachzeile
+            headline:
+              $ref: "#/components/schemas/RichText"
+            headlinePlain:
+              type: string
+              example: Beispiel-Überschrift
+              description: Plain text headline
+            introductionText:
+              $ref: "#/components/schemas/RichText"
+            introductionTextPlain:
+              type: string
+              example: Beispiel-Anlauftext
+              description: Plain text text
+            detailText:
+              $ref: "#/components/schemas/RichText"
+            detailTextPlain:
+              type: string
+              example: Beispiel-Detailtext
+              description: Plain detail text
+            duration:
+              type: integer
+              example: 120
+            source:
+              type: string
+              example: dpa
+            title:
+              type: string
+              example: This is the fancy Title
+              description: Seitentitle
+            displayDate:
+              type: string
+              format: date-time
+            updateDateOnPublication:
+              type: boolean
+              description: If set to true, the displayDate will be updated with the next
+                publication date.
+            metaDescription:
+              type: string
+              example: This is the SEO Meta-Description
+              description: SEO Meta-Description
+            canonicalTag:
+              type: string
+              example: This is the SEO Canonical Tag
+              description: SEO Canonical Tag (it isn't the Canonical URL from Burli. This tag is entered manually!)
+            validFrom:
+              type: string
+              format: date-time
+            expiryDate:
+              type: string
+              format: date-time
+            teasers:
+              $ref: "#/components/schemas/Teasers"
+            conversionText:
+              $ref: "#/components/schemas/RichText"
+            conversionTextPlain:
+              type: string
+              example: Beispiel-Anrisstext für eine Premium Conversionseite
+              description: Plain conversion text
+            nodes:
+              type: array
+              items:
+                $ref: "#/components/schemas/SubDocument11Node"
+            nodesAdjusted:
+              type: boolean
+            urls:
+              type: array
+              items:
+                $ref: "#/components/schemas/KeyValuePair"
+            autoplay:
+              type: string
+              enum:
+                - autoplayOff
+                - autoplayOn
+                - autoplayMuted
+            youthProtection:
+              type: string
+              enum:
+                - zero
+                - six
+                - twelve
+                - sixteen
+                - eighteen
+                - notSet
+            geoRestriction:
+              type: string
+              enum:
+                - de
+                - dach
+                - global
+            author:
+              type: string
+            filename:
+              type: string
+            transcodingId:
+              type: string
+            agency:
+              type: string
+            type:
+              type: string
+              enum:
+                - livestream
+                - external
+                - upload
+            legalInformation:
+              type: string
+            trackingId:
+              type: string
+    Premium:
+      type: string
+      enum:
+        - free
+        - plus
+    Teasers:
+      type: object
+      description: Defines an Teaserlist as subDocument
+      required:
+        - variants
+      properties:
+        teaserKicker:
+          type: string
+          description: Default Teaser Kicker
+        teaserHeadline:
+          $ref: "#/components/schemas/RichText"
+        teaserText:
+          $ref: "#/components/schemas/RichText"
+        variants:
+          type: array
+          description: Array of Teaser Variants
+          items:
+            $ref: "#/components/schemas/Teaser"
+    Teaser:
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: Unique Teaser Identifier!
+        teaserKicker:
+          type: string
+          description: Default Teaser Kicker
+        generated:
+          type: boolean
+          description: True if the Teaser fields were prefilling with the values from the
+            subdocument1, false otherwise.
+        teaserHeadline:
+          $ref: "#/components/schemas/RichText"
+        teaserHeadlinePlain:
+          type: string
+          description: Plain teaserHeadline text
+        teaserText:
+          $ref: "#/components/schemas/RichText"
+        teaserTextPlain:
+          type: string
+          description: Plain text
+        subDocument8Id:
+          type: string
+        subDocument8Version:
+          type: integer
+          format: int32
+        subDocument8VersionPublicationDate:
+          type: string
+          format: date-time
+        subDocument8EditorsDone:
+          type: array
+          items:
+            type: string
+        subDocument8Publisher:
+          type: string
+    RichText:
+      type: object
+      description: Defines a formatted Textfield (Richtext with DraftJs)
+      properties:
+        type:
+          type: string
+          enum:
+            - draftJs
+        typeVersion:
+          type: string
+          description: The Version of this richtext.
+        data:
+          type: object
+          description: RawFormat (Json) Presentation of a formatted Textfield
+    Reference:
+      description: This Object representing an Reference. Actual is the Referecne only an
+        URL. Later it can be extended to an lean-id or ID of an external CMS
+      type: object
+      required:
+        - teaserInfos
+      properties:
+        url:
+          type: string
+          description: The url to the reference
+        canonicalPath:
+          type: string
+          description: The canoncial Path for this Reference (from Burli, if available)
+        id:
+          type: string
+          description: The reference id
+        externalId:
+          type: integer
+          format: int32
+        tenant:
+          type: string
+          description: The Tenant for this Reference
+        subTenant:
+          type: string
+          description: The subTenant for this Reference
+        externalContent:
+          type: boolean
+          description: if this is external content (e.g. a external only subdocument1)
+        isPublished:
+          type: boolean
+          description: true, if this content has an published Version
+        premium:
+          $ref: "#/components/schemas/Premium"
+        isLegalContent:
+          type: boolean
+          description: if this content is flagged as legal content
+        documentType:
+          type: string
+          description: equals like the DocumentType Enum of an Document
+        teaserKicker:
+          type: string
+          description: DEPRECATED use teaserInfos instead (The teaser kicker)
+          deprecated: true
+        teaserHeadline:
+          type: string
+          description: DEPRECATED use teaserInfos instead (Headline as Plaintext)
+          deprecated: true
+        teaserText:
+          type: string
+          description: DEPRECATED use teaserInfos instead (Teasertext as Plaintext)
+          deprecated: true
+        teaserLandscapeImageUrl:
+          type: string
+          description: DEPRECATED use teaserInfos instead (Fullqualified ImageUrl)
+          deprecated: true
+        teaserInfos:
+          type: array
+          description: List of relevant teaser infos (landscape and square)
+          items:
+            $ref: "#/components/schemas/TeaserInfo"
+    TeaserInfo:
+      description: Information of one teaser variant
+      type: object
+      properties:
+        identifier:
+          type: string
+          description: Unique Teaser Identifier!
+        teaserKicker:
+          type: string
+          description: The teaser kicker
+        teaserHeadline:
+          type: string
+          description: Headline as Plaintext
+        teaserText:
+          type: string
+          description: Teasertext as Plaintext
+        teaserImageUrl:
+          type: string
+          description: Fullqualified ImageUrl
+    externalReference:
+      description: This Object representing an externalReference. (Used by
+        additionalexternalRefs maps to CmRef from domain-model)
+      type: object
+      properties:
+        identifier:
+          type: string
+        externalId:
+          type: integer
+          format: int32
+          description: The external Id of the Representation of this in external
+        externalVersion:
+          type: integer
+          format: int32
+          description: The external Version of the Representation of this  in
+            external
+        externalPath:
+          type: string
+          description: The external Path of the Representation of this  in
+            external
+        lastSyncModCounter:
+          type: integer
+          format: int64
+          description: Store value of the modCounter (modification counter) from the last
+            sync
+    ImageCrop:
+      type: object
+      properties:
+        upperLeftX:
+          type: integer
+        upperLeftY:
+          type: integer
+        lowerRightX:
+          type: integer
+        lowerRightY:
+          type: integer
+    ImageOverlay:
+      type: object
+      properties:
+        overlayType:
+          type: string
+          enum:
+            - pixel
+            - bar
+        upperLeftX:
+          type: integer
+        upperLeftY:
+          type: integer
+        lowerRightX:
+          type: integer
+        lowerRightY:
+          type: integer
+        pixelationSize:
+          type: integer
+        rotation:
+          type: integer
+
+    SubDocument2:
+      description: SubDocument2
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          required:
+            - overlays
+          properties:
+            binaryId:
+              type: string
+              maxLength: 40
+              example: 9187s2223-yks12131-jpg
+              description: Id for binary data
+            binaryPath:
+              type: string
+              maxLength: 200
+              example: http://blobsrv/9187s2223-yks12131-jpg
+              description: Url to get the binary data of the image from a repository
+            externalTitle:
+              type: string
+              maxLength: 200
+              example: 200234150-Ford stoppt Pläne für Werk in Mexiko
+              description: Title in external system
+            externalDescription:
+              type: string
+              maxLength: 500
+              example: Ford Präsident und CEO Mark Fields spricht am 03.01.2017 in ...
+                Foto Carlos Osorio/AP/dpa (c) dpa
+              description: Description in external system
+            source:
+              type: string
+              maxLength: 200
+              example: Carlos Osorio / dpa
+              description: Source (Quelle) of image e.g. photographer.
+            validFrom:
+              type: string
+              format: date-time
+              description: Start date when the image can be shown to public
+            expiryDate:
+              type: string
+              format: date-time
+              description: End date when the image can be shown to public
+            externalFormatName:
+              type: string
+              maxLength: 300
+              example: master, authorenkoepfe_64x64
+              description: The master or a custom image format name in the external system
+            externalBinaryPath:
+              type: string
+              maxLength: 300
+              example: http://blobsrv/9187s2223-yks12131-jpg
+              description: Url to get the binary data of the image
+            externalShortId:
+              type: string
+              maxLength: 20
+              example: szyz3v
+              description: Short Id of image in external system
+            accountingId:
+              type: string
+              maxLength: 300
+              example: 8550709
+              description: Id for accounting
+            dam:
+              type: string
+              enum:
+                - none
+                - visono
+                - fotoware
+              description: Digital Asset Management for the corresponding AccountingId
+            height:
+              type: integer
+              format: int32
+              description: Height in pixels
+            width:
+              type: integer
+              format: int32
+              description: Width in pixels
+            mimeType:
+              type: string
+              maxLength: 100
+              example: image/jpeg
+              description: MIME type of image
+            overlays:
+              type: array
+              description: All information for image overlays
+              items:
+                $ref: "#/components/schemas/ImageOverlay"
+    SubDocument4:
+      description: Live Ticker
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          required:
+            - messageList
+          properties:
+            title:
+              type: string
+              description: title of Live Ticker
+            maxSizeExceeded:
+              type: boolean
+              description: More messages available than filled, use another pagination to
+                get more
+            ducomentsList:
+              type: array
+              description: Messages in Live Ticker
+              items:
+                $ref: "#/components/schemas/SubDocument5"
+    LiveTickerChanges:
+      description: Live Ticker
+      required:
+        - created
+        - modified
+        - deleted
+      properties:
+        created:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubDocument5"
+        modified:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubDocument5"
+        deleted:
+          type: array
+          items:
+            $ref: "#/components/schemas/SubDocument5"
+    SubDocument6:
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            title:
+              type: string
+            subTitle:
+              type: string
+            contentType:
+              type: string
+            creationTool:
+              type: string
+            infoGraphicType:
+              type: string
+            previewUrl:
+              type: string
+              description: url to a preview image
+            liveUrl:
+              type: string
+              description: url to a live image
+            description:
+              type: string
+              description: internal description
+            iFrameHeight:
+              type: string
+              description: the height of an iframe
+            oEmbedUrl:
+              type: string
+              description: oembedurl from daviz
+            rawData:
+              type: object
+    SubDocument5:
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            liveTickerId:
+              type: string
+              description: Universal id of Live Ticker containing this message
+            stickyPosition:
+              type: integer
+              format: int32
+              description: Fixed position in ticker if this message is sticky (0 otherwise)
+            catchline:
+              type: string
+              description: Catchline (Stichzeile)
+            displayDate:
+              type: string
+              format: date-time
+            text:
+              $ref: "#/components/schemas/RichText"
+            textPlain:
+              type: string
+              example: Beispiel-Nachricht
+              description: Plain text message text
+    SubDocument3:
+      description: SubDocument3
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            name:
+              type: string
+              description: Name of the SubDocument
+            search:
+              type: string
+              description: The search string of the SubDocument
+            searchJson:
+              type: object
+              description: searchQuery as JSON format
+            enabled:
+              type: boolean
+              description: Whether the SubDocument is enabled or not
+            type:
+              type: string
+              enum:
+                - json
+                - xml
+            description:
+              type: string
+    SubDocument11:
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            title:
+              type: string
+            nodes:
+              type: array
+              items:
+                $ref: "#/components/schemas/SubDocument11Node"
+            nodesAdjusted:
+              type: boolean
+    SubDocument10:
+      description: SubDocument10
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            name:
+              type: string
+            altText:
+              type: string
+            teasers:
+              $ref: "#/components/schemas/Teasers"
+            nodes:
+              type: array
+              items:
+                $ref: "#/components/schemas/SubDocument11Node"
+            nodesAdjusted:
+              type: boolean
+              description: set if the taxonoy-nodes where adjusted at least once
+    SubDocument9:
+      allOf:
+        - $ref: "#/components/schemas/Document"
+        - type: object
+          properties:
+            name:
+              type: string
+              description: Name of the document group
+            description:
+              type: string
+              description: Description of the document group
+            stickerName:
+              type: string
+              description: Name of the sticker to be displayed on teasers for content of this group
+    PathRequest:
+      type: object
+      required:
+        - urlPath
+      properties:
+        urlPath:
+          type: string
+          description: the url path to the document
+    UrlRequest:
+      type: object
+      properties:
+        url:
+          type: string
+          description: the url to a Lean or external Document
+        id:
+          type: string
+          description: Universal id of document - will be converted into a url to a Lean
+            Document
+        leanOnly:
+          type: boolean
+          default: false
+          description: true - checks only the Lean-System. false - checks the Lean-System
+            and external-System for reference.
+    VersionData:
+      description: Version data of a document
+      type: object
+      required:
+        - publicationHistory
+        - editors
+        - editorsDone
+        - editorIds
+        - editorIdsDone
+      properties:
+        id:
+          type: string
+          description: Universal id of document
+        documentType:
+          type: string
+          enum:
+            - subDocument1
+            - subDocument2
+            - subDocument3
+            - subDocument4
+            - subDocument5
+            - subDocument6
+            - subDocument7
+            - subDocument8
+            - subDocument9
+            - subDocument10
+          description: Document type
+        publicationBlocked:
+          type: boolean
+          description: Is publication blocked
+        version:
+          type: integer
+          format: int32
+          description: Document version
+        state:
+          type: string
+          enum:
+            - checkedOut
+            - checkedIn
+            - published
+        publicationDate:
+          type: string
+          format: date-time
+          description: Publication date
+        documentScheduledPublication:
+          type: boolean
+          description: Flag that the last publication or depublication of the document was done via a scheduler
+        versionPublicationDate:
+          type: string
+          format: date-time
+          description: Publication date of version
+        versionScheduledPublication:
+          type: boolean
+          description: Flag that the last publication or depublication of this document-version was done via a scheduler
+        creationDate:
+          type: string
+          format: date-time
+          description: Creation date
+        modificationDate:
+          type: string
+          format: date-time
+          description: Modification date
+        legalContent:
+          type: boolean
+          description: Whether this document is marked as legal content or not
+        legalContentLockDate:
+          type: string
+          format: date-time
+          description: Date the document was marked as legal content
+        editors:
+          type: array
+          description: Editors currently working with the document
+          items:
+            type: string
+        editorsDone:
+          type: array
+          description: Editors which have worked with the document
+          items:
+            type: string
+        editorIds:
+          type: array
+          description: Accounting-Ids of editors currently working with the document
+          items:
+            type: string
+        editorIdsDone:
+          type: array
+          description: Accounting-Ids of editors which have worked with the document
+          items:
+            type: string
+        jsonUrl:
+          type: string
+          description: Url to access the details of the document version
+    SubDocument11Node:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Universal id of document
+        name:
+          type: string
+          description: The Name (Rufname) of the Node
+        path:
+          type: array
+          description: Node path (node names)
+          items:
+            type: string
+    KeyValuePair:
+      type: object
+      description: A key and a string value
+      properties:
+        key:
+          type: string
+          description: The key
+        value:
+          type: string
+          description: The value
+    Referrer:
+      type: object
+      description: Object representing a referrer
+      properties:
+        id:
+          type: string
+          description: Universal id of document
+        version:
+          type: integer
+          format: int32
+          description: Document version
+        documentType:
+          type: string
+          description: Document type
