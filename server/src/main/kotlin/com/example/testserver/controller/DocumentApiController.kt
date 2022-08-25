@@ -57,76 +57,327 @@ class DocumentApiController  {
         return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
 
     }
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document1/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument1(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
 
-//  @Operation(
-//        operationId = "readDocument",
-//        summary = "Access documents",
-//        responses = [ApiResponse(
-//            responseCode = "200",
-//            description = "Successful",
-//            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
-//        ), ApiResponse(
-//            responseCode = "400",
-//            description = "Invalid or missing parameter"
-//        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
-//        security = [SecurityRequirement(name = "basicAuth")]
-//    )
-//    @RequestMapping(
-//        method = [RequestMethod.GET],
-//        value = ["/document2/{tenant}/{cmsId}"],
-//        produces = ["application/json"]
-//    )
-//    fun readDocument2(
-//        @Parameter(
-//            name = "tenant",
-//            description = "Tenant",
-//            required = true,
-//            schema = Schema(description = "")
-//        ) @PathVariable("tenant") tenant: String?,
-//        @Parameter(
-//            name = "cmsId",
-//            description = "Cms-id of document",
-//            required = true,
-//            schema = Schema(description = "")
-//        ) @PathVariable("cmsId") cmsId: String?
-//    ): CompletableFuture<ResponseEntity<Document?>>? {
-//        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
-//
-//    }
-//
-//    @Operation(
-//        operationId = "readDocument",
-//        summary = "Access documents",
-//        responses = [ApiResponse(
-//            responseCode = "200",
-//            description = "Successful",
-//            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
-//        ), ApiResponse(
-//            responseCode = "400",
-//            description = "Invalid or missing parameter"
-//        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
-//        security = [SecurityRequirement(name = "basicAuth")]
-//    )
-//    @RequestMapping(
-//        method = [RequestMethod.GET],
-//        value = ["/document3/{tenant}/{cmsId}"],
-//        produces = ["application/json"]
-//    )
-//    fun readDocument3(
-//        @Parameter(
-//            name = "tenant",
-//            description = "Tenant",
-//            required = true,
-//            schema = Schema(description = "")
-//        ) @PathVariable("tenant") tenant: String?,
-//        @Parameter(
-//            name = "cmsId",
-//            description = "Cms-id of document",
-//            required = true,
-//            schema = Schema(description = "")
-//        ) @PathVariable("cmsId") cmsId: String?
-//    ): CompletableFuture<ResponseEntity<Document?>>? {
-//        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
-//
-//    }
+    }
+
+  @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document2/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument2(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document3/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument3(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document4/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument4(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document5/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument5(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document6/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument6(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document7/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument7(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document8/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument8(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
+
+    @Operation(
+        operationId = "readDocument",
+        summary = "Access documents",
+        responses = [ApiResponse(
+            responseCode = "200",
+            description = "Successful",
+            content = [Content(mediaType = "application/json", schema = Schema(implementation = Document::class))]
+        ), ApiResponse(
+            responseCode = "400",
+            description = "Invalid or missing parameter"
+        ), ApiResponse(responseCode = "404", description = "No document with 'cmsId' found")],
+        security = [SecurityRequirement(name = "basicAuth")]
+    )
+    @RequestMapping(
+        method = [RequestMethod.GET],
+        value = ["/document9/{tenant}/{cmsId}"],
+        produces = ["application/json"]
+    )
+    fun readDocument9(
+        @Parameter(
+            name = "tenant",
+            description = "Tenant",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("tenant") tenant: String?,
+        @Parameter(
+            name = "cmsId",
+            description = "Cms-id of document",
+            required = true,
+            schema = Schema(description = "")
+        ) @PathVariable("cmsId") cmsId: String?
+    ): CompletableFuture<ResponseEntity<Document?>>? {
+        return CompletableFuture.completedFuture(ResponseEntity(HttpStatus.NOT_IMPLEMENTED))
+
+    }
 }
